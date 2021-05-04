@@ -20,26 +20,26 @@ pipeline{
         }
         stage('Docker Build'){
             steps{
-                sh "docker build . -t safiquddin/safiqapp:${DOCKER_TAG}"
+                sh "docker build . -t safiquddin/safiqapp:${DOCKER_TAG} "
             }
         }
         stage('DockerHub Push'){
             steps{
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'docker-hubpwd')]) {
-                    sh "docker login -u safiquddin -p ${docker-hubpwd}"
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                    sh "docker login -u safiquddin -p ${dockerHubPwd}"
                 }
+                
                 sh "docker push safiquddin/safiqapp:${DOCKER_TAG} "
             }
         }
-        
-        
         stage('Docker Deploy'){
             steps{
-              ansiblePlaybook credentialsId: 'ansible', disableHostKeyChecking: true, extras: 'DOCKER_TAG=""', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
+              ansiblePlaybook credentialsId: 'ansible', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
         }
     }
 }
 def getVersion(){
     def commitHash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+    return commitHash
 }
