@@ -1,7 +1,7 @@
 pipeline{
     agent any
     tools {
-      maven 'jenkins_maven'
+      maven 'maven3.9'
     }
     environment {
       DOCKER_TAG = getVersion()
