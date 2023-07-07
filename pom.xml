@@ -18,8 +18,8 @@
   <distributionManagement>
     <snapshotRepository>
         <id>snapshots</id>
-        <name>ip-172-31-33-190.ap-south-1.compute.internal-snapshots</name>
-        <url>http://43.205.237.144:8081/artifactory/libs-snapshot-local</url>
+        <name>ip-172-31-33-190.ap-south-1.compute.internal</name>
+        <url>http://172.31.33.190:8081/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
   </distributionManagement>
   <build>
